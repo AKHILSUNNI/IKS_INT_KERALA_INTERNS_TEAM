@@ -36,7 +36,7 @@ const handleChange = (e)=> {
 const handleSubmit = e =>{
     e.preventDefault()
     setErrors(validate(values))
-    //var display =Object.keys(values.services).filter((x)=>values.services[x]);
+    var display =Object.keys(values.services).filter((x)=>values.services[x]);
     if (Object.keys(errors).length === 0) {
       const url ="https://iksinterns.herokuapp.com/api/post"
       const params = new URLSearchParams()
@@ -44,7 +44,7 @@ const handleSubmit = e =>{
       params.append('email' , values.email)
       params.append( 'mobile' , values.mobile)
       params.append('description' , values.desc)
-      params.append('services' ,"fgd")
+      params.append('services' ,display)
 
       const config ={
           Headers:{
