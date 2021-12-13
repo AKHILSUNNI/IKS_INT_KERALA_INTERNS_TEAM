@@ -18,7 +18,6 @@ const [values,setValues] = useState({
    }
 })
 const [errors,setErrors] =useState({})
-const [submitting,setSubmitting] =useState(false)
 
 const handleChange = (e)=> {
     const {name,type,value,checked} =e.target
@@ -37,17 +36,23 @@ const handleChange = (e)=> {
 const handleSubmit = e =>{
     e.preventDefault()
     setErrors(validate(values))
-    var display =Object.keys(values.services).filter((x)=>values.services[x]);
-    setSubmitting(true)
-    if (Object.keys(errors).length === 0 && submitting) {
+    //var display =Object.keys(values.services).filter((x)=>values.services[x]);
+    if (Object.keys(errors).length === 0) {
       const url ="https://iksinterns.herokuapp.com/api/post"
-      Axios.post(url,{
-          Name : values.Name,
-          email : values.email,
-          mobile:values.mobile,
-          desc:values.desc,
-          services:display
-      })
+      const params = new URLSearchParams()
+      params.append('Name' , values.Name)
+      params.append('email' , values.email)
+      params.append( 'mobile' , values.mobile)
+      params.append('description' , values.desc)
+      params.append('services' ,"fgd")
+
+      const config ={
+          Headers:{
+              'Content-Type':'application/x-www-form-unlencoded'
+          }
+      }
+
+      Axios.post(url,params,config)
       .then(res =>{
           console.log(res.data)
       })
